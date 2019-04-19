@@ -1,14 +1,18 @@
 		<div th:fragment="navbar">
-		<form th:action="@{/logout}" method="get">
-			<button class="btn btn-md btn-danger btn-block" type="Submit">Logout
-			</button>
-		</form>
-		<form th:action="@{/r/myprofile}" method="get">
-			<button class="btn btn-md  btn-block" type="Submit">My Profile
-			</button>
-		</form>
-		<form th:action="@{/r/myjokes}" method="get">
-			<button class="btn btn-md  btn-block" type="Submit">My Jokes
-			</button>
-		</form>
+			<form th:action="@{/logout}"  method="get">
+				<button class="btn btn-md btn-danger btn-block" type="Submit">Logout
+				</button>
+			</form>
+			<form th:action="@{/r/myprofile}" method="get">
+				<button class="btn btn-md  btn-block" type="Submit">My Profile
+				</button>
+			</form>
+			<form th:action="@{/r/myjokes}" method="get">
+				<button class="btn btn-md  btn-block" type="Submit">My Jokes
+				</button>
+			</form>
+			<form th:action="@{/r/home}" method="get">
+				<button class="btn btn-md  btn-block" type="Submit">Home
+				</button>
+			</form>
 		</div>

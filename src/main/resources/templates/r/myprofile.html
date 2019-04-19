@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Profile Page</title>
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/category.css}" />
+
+</head>
+
+<body>
+		<th:block th:replace="r/navbar::navbar"></th:block>
+		<form autocomplete="off" th:action="@{/r/updatepassword}"
+		th:object="${userTaj}" method="post" class="form-horizontal"
+		role="form">
+		<div class="container">
+			
+
+			
+			
+			
+			<div style="margin-top: 20px" class="well well-sm"></div>
+
+			<div class="panel-group" style="margin-top: 20px">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-sm-4">My Profile</div>
+							<div class="col-sm-4"></div>
+							<div class="col-sm-4"></div>
+						</div>
+					</div>
+
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-sm-2">
+								<label>Username</label>
+							</div>
+							<div class="col-sm-2">
+								<input type="hidden" th:field="*{id}"/>
+								<input type="text" th:field="${userTaj.username}" disabled />
+							</div>
+							<br>
+							<div class="col-sm-2"></div>
+							<div class="col-sm-2"></div>
+							<div class="col-sm-2"></div>
+							<div class="col-sm-2"></div>
+						</div>
+						<div class="row">
+							<div class="col-sm-2">
+								<label>Email</label>
+							</div>
+							<div class="col-sm-2">
+								<input type="text" th:field="*{email}" disabled />
+							</div>
+							<br>
+							<div class="col-sm-2"></div>
+							<div class="col-sm-2"></div>
+							<div class="col-sm-2"></div>
+							<div class="col-sm-2"></div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<!-- Change my pass -->
+			<div class="panel-group" style="margin-top: 20px">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-sm-4">Change my password</div>
+							<div class="col-sm-4"></div>
+							<div class="col-sm-4" id="errormsg" style="display: none"></div>
+						</div>
+					</div>
+
+					<div class="panel-body">
+
+						<div class="row">
+							<div class="col-sm-2">
+								<label>Old Password</label>
+							</div>
+							<div class="col-sm-2">
+								<input id="oldPass" name="oldPass" type="password">
+							</div>
+							<div class="col-sm-2"></div>
+							<div class="col-sm-2"></div>
+							<div class="col-sm-2"></div>
+							<div class="col-sm-2"></div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-2">
+								<label>New Password</label>
+							</div>
+							<div class="col-sm-2">
+								<input id="pass" name="pass" type="password">
+							</div>
+							<div class="col-sm-2"></div>
+							<div class="col-sm-2"></div>
+							<div class="col-sm-2"></div>
+							<div class="col-sm-2"></div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-2">
+								<label>Confirm password</label>
+							</div>
+							<div class="col-sm-2">
+								<input id="passConfirm" name="passConfirm" type="password" />
+							</div>
+							<div class="col-sm-2"></div>
+							<div class="col-sm-2"></div>
+							<div class="col-sm-2"></div>
+							<div class="col-sm-2"></div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-2">
+								<p th:text="${myMessage.m}">error</p>
+							</div>
+							
+						</div>
+
+						<div class="row">
+							<div class="col-sm-4">
+								<button class="btn  btn-primary btn-block" type="Submit">
+								Change it!
+								</button>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+			
+			<!-- Change my pass -->
+
+
+		</div>
+		</form>
+	
+</body>
+</html>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.taj.demo.model.Category;
 import com.taj.demo.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 
 
 
@@ -36,12 +37,18 @@ public class CategoryService {
     }
     
     public Category editCategory(Category category) {
-    	return categoryRepository.save(category);
+    	return categoryRepository.saveAndFlush(category);
     }
     
-    public Category findCategoryById(int id) {
+    public Category findCategoryById(long id) {
     	
     	return categoryRepository.findById(id);
+    }
+    
+    public List<Category> findAllSorted(){
+//    	return categoryRepository.findAllByOrderByIdAsc();
+    	Sort sort = new Sort(Sort.Direction.ASC, "categoryName");
+    	return categoryRepository.findAll(sort);
     }
 
 }

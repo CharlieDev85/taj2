@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.springframework.context.annotation.Lazy;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

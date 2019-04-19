@@ -26,8 +26,15 @@
 <body>
 	<div class="container">
 
+	
+	
 	<th:block th:replace="r/navbar::navbar"></th:block>
-		<div class="panel-group" style="margin-top: 40px">
+	
+	<div style="margin-top: 20px" class="well well-sm">
+	<p class="admin-message-text text-left" th:utext="${userInfo}"></p>
+	</div>
+	
+		<div class="panel-group" style="margin-top: 20px">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 				
@@ -43,15 +50,19 @@
 				</div>
 				
 				</div>
+				<th:block th:each="joke : ${allUserTajJokes}">
 				<div class="panel-body">
 					<div class="panel-group" style="margin-top: 2px">
 						<div class="panel panel-primary">
 							<div class="panel-heading">
 								<div class="row">
-								  <div class="col-sm-4">Joke 1 Title</div>
+								  <div class="col-sm-4" >
+									<p th:text="${joke.title}"></p>
+								  </div>
 								  <div class="col-sm-4"></div>
 								  <div class="col-sm-4">
-								  	<a href="/r/deleteJoke" class="btn btn-danger">
+								  	<a th:href="|/r/deleteJoke/${joke.id}|" onclick="return confirm('Are you sure?')" 
+								  		class="btn btn-danger">
 								  		<i class="material-icons">&#xE872;</i>
 								  		<span>Delete this Joke</span>
 									</a>
@@ -59,44 +70,26 @@
 								</div>
 							</div>
 							<div class="panel-body">
-							<div class="well well-sm">Categories: Humor, First Post, Help</div>
-							This is my first joke hahaaha. isn't cool?
+							
+							<div class="well well-sm" >
+								<span>Categories: </span>
+								<th:block th:each="category : ${joke.categories}">
+									<span th:text="${category.categoryName}" class="badge">
+									</span>			
+								</th:block>		
+
+							</div>
+							
+							
+							
+							<p th:text="${joke.body}"></p>
 							</div>
 							<hr>
-							<p>Average rating is: <b>4.5</b> </p>
+							<p>Average rating is: <b th:text="${joke.avgRating}?:'Nobody has rated it yet'"></b></p>
 						</div>
 					</div>
 				</div>
-				
-				
-				<div class="panel-body">
-					<div class="panel-group" style="margin-top: 2px">
-						<div class="panel panel-primary">
-							<div class="panel-heading">
-								<div class="row">
-								  <div class="col-sm-4">Joke 2 Title</div>
-								  <div class="col-sm-4"></div>
-								  <div class="col-sm-4">
-								  	<a href="/r/deleteJoke" class="btn btn-danger">
-								  		<i class="material-icons">&#xE872;</i>
-								  		<span>Delete this Joke</span>
-									</a>
-								  </div>
-								</div>
-							</div>
-							<div class="panel-body">
-							<div class="well">Categories: Humor, Second Post, Help</div>
-							This is my second joke hahaaha. isn't cool?
-							</div>
-							<hr>
-							<p>Average rating is: <b>4.1</b> </p>
-						</div>
-					</div>
-				</div>
-				
-				
-				
-				
+				</th:block>				
 			</div>
 		</div>
 	</div>

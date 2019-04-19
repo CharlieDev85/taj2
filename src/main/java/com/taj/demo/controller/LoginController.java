@@ -1,8 +1,6 @@
 package com.taj.demo.controller;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 
 import javax.validation.Valid;
 
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.taj.demo.model.Role;
 import com.taj.demo.model.UserTaj;
 import com.taj.demo.service.RoleService;
 import com.taj.demo.service.UserService;

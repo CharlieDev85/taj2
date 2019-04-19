@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create a Joke</title>
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/css/category.css}" />
+
+</head>
+
+<body>
+	<div class="container">
+
+		<th:block th:replace="r/navbar::navbar"></th:block>
+		<div style="margin-top: 20px" class="well well-sm">
+			<p class="admin-message-text text-left" th:utext="${userInfo}"></p>
+		</div>
+		<div class="panel-group" style="margin-top: 15px">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+
+					<div class="row">
+						<div class="col-sm-4">Create a Joke</div>
+						<div class="col-sm-4"></div>
+						<div class="col-sm-4"></div>
+					</div>
+
+				</div>
+				<div class="panel-body">
+					<div class="panel-group" style="margin-top: 15px">
+
+						<div class="row">
+							<form autocomplete="off" action="#" th:action="@{/r/createJoke}"
+								th:object="${joke}" method="post" class="form-horizontal"
+								role="form">
+								<div class="col-sm-6">
+									<input type="hidden" th:field="*{userTaj.id}"/>
+									<div class="form-group">
+										<div class="col-sm-9">
+
+											<input type="text" th:field="*{title}" placeholder="Title"
+												class="form-control" /> 
+												<label
+												th:if="${#fields.hasErrors('title')}" th:errors="*{title}"
+												class="validation-message">
+												</label>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="col-sm-9">
+											<textarea rows="4" cols="50" th:field="*{body}"
+												placeholder="Body" class="form-control">
+											</textarea>
+											<label th:if="${#fields.hasErrors('body')}"
+												th:errors="*{body}" class="validation-message">
+											</label>
+										</div>
+									</div>
+									<h2>
+										<span class="text-success" th:utext="${successMessage}"></span>
+									</h2>
+
+
+								</div>
+								<div class="form-group">
+									
+									<div class="col-sm-6">
+									<label>Categories:</label><br>
+										<th:block th:each="category : ${allCategories}">
+												<input name="categories" th:field="*{categories}" type="checkbox"  th:value="${category.id}" th:checked="${not #sets.isEmpty(joke.categories)?  #sets.contains(joke.categories, category) :false}"/>
+												<label th:text=" | &nbsp; ${category.categoryName}|">Something is wrong !</label><br>
+										</th:block>
+										<p th:if="${#fields.hasErrors('categories')}" th:errors="*{categories}">error</p>
+									</div>
+								</div>
+								
+								<button type="submit" class="btn btn-primary btn-block" >
+									Save Joke
+								</button>
+							</form>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

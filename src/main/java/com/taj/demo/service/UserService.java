@@ -59,6 +59,10 @@ public class UserService {
     public UserTaj editUser(UserTaj user) {
     	return userRepository.save(user);
     }
+    
+    public UserTaj updatePassword(UserTaj userTaj) {
+    	return this.saveUser(userTaj);
+    }
 
 	public void delete(UserTaj userTaj) {
 		userRepository.delete(userTaj);

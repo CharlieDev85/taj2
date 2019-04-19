@@ -41,17 +41,17 @@
 			method="post" class="form-horizontal" role="form">
 			
 			<div class="form-group">
-				<input th:type="hidden" th:value="${userTaj.id}" name="userTajId" th:field="*{id}"/>
-				<input th:type="hidden" th:value="${userTaj.password}" name="password" th:field="*{password}"/>
+				<input th:type="hidden"  name="userTajId" th:field="*{id}"/>
+				<input th:type="hidden"  name="password" th:field="*{password}"/>
 				<label>Username:</label>				
-				<input type="text" class="form-control" th:field="*{username}" th:value="${userTaj.username}"/>
-				<p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">error</p>
+				<input type="text" class="form-control" th:field="*{username}" />
+				<!-- <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">error</p> -->
 			</div>
 			
 			<div class="form-group">
 				<label>Email:</label>				
-				<input type="text" class="form-control" th:field="*{email}" th:value="${userTaj.email}"/>
-				<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">error</p>
+				<input type="text" class="form-control" th:field="*{email}" />
+				<!-- <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">error</p> -->
 			</div>
 			
 			<div class="form-group">
@@ -61,22 +61,26 @@
 				<br>
         		<input type="radio" th:field="*{active}" th:value="0" th:checked="${active}==0">
         		<label th:text="| &nbsp; No|">Something is wrong !</label>
-        		<p th:if="${#fields.hasErrors('active')}" th:errors="*{active}">error</p>
+        		<!-- <p th:if="${#fields.hasErrors('active')}" th:errors="*{active}">error</p> -->
 			</div>
 			
 			<div class="form-group">
 				<label>Roles:</label><br>			
-				<th:block th:each="roleCheckbox : ${rolesCheckboxes}">
-						<input type="checkbox" th:name="roles" th:value="${roleCheckbox.nameId}" th:checked="${roleCheckbox.checked}"/>
-						<label th:text=" | &nbsp; ${roleCheckbox.name}|">Something is wrong !</label><br>
+				<th:block th:each="myRole : ${allRoles}">
+						<input type="checkbox"  name="roles" th:value="${myRole.id}" th:checked="${not #sets.isEmpty(userTaj.roles)?  #sets.contains(userTaj.roles, myRole) :false}"/>
+						<label th:text=" | &nbsp; ${myRole.role}|">Something is wrong !</label><br>
 				</th:block>
-				<p th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">error</p>
+				<!-- <p th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">error</p> -->
 			</div>
 
 			<h2>
 				<span class="text-success" th:utext="${successMessage}"></span>
-			</h2>
-
+			</h2>		
+				<div class="alert alert-warning">
+					<ul th:each="err : ${#fields.errors('all')}">
+						<li  th:text="${err}" />
+					</ul>			
+				</div>
 			<button type="submit" class="btn btn-primary">Submit</button>
 		</form>
 

@@ -19,7 +19,7 @@ import com.taj.demo.model.UserTaj;
 import com.taj.demo.service.CategoryService;
 import com.taj.demo.service.RoleService;
 import com.taj.demo.service.UserService;
-import com.taj.demo.helper.Checkbox;
+
 
 @Controller
 public class AdminController {
@@ -109,7 +109,7 @@ public class AdminController {
     }
 
     @RequestMapping(value="/admin/editCategory/{id}", method = RequestMethod.GET)
-    public ModelAndView editCategoryGet(@PathVariable(name="id") int id) {
+    public ModelAndView editCategoryGet(@PathVariable(name="id") long id) {
     	ModelAndView modelAndView = new ModelAndView();
     	Category category = categoryService.findCategoryById(id);
     	modelAndView.addObject("category", category);
@@ -144,23 +144,11 @@ public class AdminController {
     
     @RequestMapping(value="/admin/editUser/{id}", method = RequestMethod.GET)
     public ModelAndView editUserGet(@PathVariable(name="id") int id) {
-    	List<Checkbox> rolesCheckboxes = new ArrayList<Checkbox>();
     	ModelAndView modelAndView = new ModelAndView();
     	UserTaj userTaj = userService.findUserByUserId(id);
-    	List<Role> roles = roleService.findAll();
-    	for(Role role: roles) {
-    		Checkbox checkbox = new Checkbox(role.getRole(), role.getId(), false);
-    		for(Role roleApplied: userTaj.getRoles()) {
-    			if(roleApplied.getRole().equals(role.getRole())) {
-    				checkbox.setChecked(true);
-    			}
-    		}
-    		rolesCheckboxes.add(checkbox);
-    	}
-    	//quick fix to avoid error in displaying the page
-    	userTaj.setRoles(null);
+    	List<Role> allRoles = roleService.findAll();
     	modelAndView.addObject("userTaj", userTaj);
-    	modelAndView.addObject("rolesCheckboxes", rolesCheckboxes);
+    	modelAndView.addObject("allRoles", allRoles);
     	modelAndView.setViewName("admin/editUser");;
     	return modelAndView;
     }
@@ -199,24 +187,9 @@ public class AdminController {
     	}    	
         
         if (bindingResult.hasErrors()) {
-        	List<Checkbox> rolesCheckboxes = new ArrayList<Checkbox>();
-        	List<Role> roles = roleService.findAll();
-        	for(Role role: roles) {
-        		Checkbox checkbox = new Checkbox(role.getRole(), role.getId(), false);
-        		if(userTaj.getRoles() != null) {
-        			for(Role roleApplied: userTaj.getRoles()) {
-            			if(roleApplied.getRole().equals(role.getRole())) {
-            				checkbox.setChecked(true);
-            			}
-            		}
-        		}        		
-        		rolesCheckboxes.add(checkbox);
-        	}
-        	//next line should be improved in the future, using the contains method in thymeleaf
-        	//https://www.baeldung.com/thymeleaf-arrays
-        	modelAndView.addObject("rolesCheckboxes", rolesCheckboxes);
-            modelAndView.setViewName("admin/editUser");
-            
+        	List<Role> allRoles = roleService.findAll();
+        	modelAndView.addObject("allRoles", allRoles);
+            modelAndView.setViewName("admin/editUser");            
         } else {
             userService.editUser(userTaj);
             modelAndView.setViewName("redirect:/admin/users");

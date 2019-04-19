@@ -17,22 +17,78 @@
 	<div class="container">
 
 	<th:block th:replace="r/navbar::navbar"></th:block>
-
-
-
-		<div class="panel-group" style="margin-top: 40px">
+	
+	<div style="margin-top: 20px" class="well well-sm">
+		<p class="admin-message-text text-left" th:utext="${userInfo}"></p>
+	</div>
+	
+	<div class="panel-group" style="margin-top: 20px">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<span th:utext="${userName}"></span>
+				
+				<div class="row">
+				  <div class="col-sm-4">All Jokes</div>
+				  <div class="col-sm-4"></div>
+				  <div class="col-sm-4"></div>
 				</div>
+				
+				</div>
+				<th:block th:each="joke : ${jokes}">
 				<div class="panel-body">
-					<img th:src="@{/images/beer.jpg}"
-						class="img-responsive center-block" width="400" height="400"
-						alt="Beer" />
+					<div class="panel-group" style="margin-top: 2px">
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								<div class="row">
+								  <div class="col-sm-4" >
+									<p th:text="${joke.title}"></p>
+								  </div>
+								  <div class="col-sm-4"></div>
+								  <div class="col-sm-4"></div>
+								</div>
+							</div>
+							<div class="panel-body">
+							
+							<div class="well well-sm" >
+								<span>Categories: </span>
+								<th:block th:each="category : ${joke.categories}">
+									<span th:text="${category.categoryName}" class="badge">
+									</span>			
+								</th:block>		
+
+							</div>
+							
+							
+							
+							<p th:text="${joke.body}"></p>
+							</div>
+							<hr>
+							
+							<p th:utext="${joke.avgRating}?'Average Rating: <b>'+ ${joke.avgRating} + '</b>':'Be the first one rating it!'"></p>
+							<!-- <p>Your Rate!: <a>1</a> <a>2</a> <a>3</a> <a>4</a> <a>5</a> </p> -->
+							<form autocomplete="off"  th:action="@{/r/rating}"
+								 method="post" class="form-horizontal"
+								role="form">
+							<input th:type="hidden" th:value="${joke.id}" id="jokeId" name="jokeId"/> 
+							<span>Your rate: </span>
+							<select id="rating" name="rating">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+							<button type="submit"  >
+									Rate!
+								</button>
+								<br><br>
+							</form>
+						</div>
+					</div>
 				</div>
-				<p class="admin-message-text text-center" th:utext="${regularMessage}"></p>
+				</th:block>				
 			</div>
 		</div>
+
 
 	</div>
 </body>
