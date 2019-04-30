@@ -48,7 +48,7 @@ public class Joke {
 	@NotEmpty
     private Set<Category> categories;
 	
-	@OneToMany(mappedBy = "joke", cascade = CascadeType.MERGE)
-    private Set<UserTajRating> userTajRatings;
+	@OneToMany(mappedBy = "joke", cascade = CascadeType.MERGE, fetch=FetchType.LAZY)
+    private Set<Rating> ratings;
 
 }

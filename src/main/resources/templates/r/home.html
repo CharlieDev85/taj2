@@ -16,76 +16,101 @@
 <body>
 	<div class="container">
 
-	<th:block th:replace="r/navbar::navbar"></th:block>
-	
-	<div style="margin-top: 20px" class="well well-sm">
-		<p class="admin-message-text text-left" th:utext="${userInfo}"></p>
-	</div>
-	
-	<div class="panel-group" style="margin-top: 20px">
+		<th:block th:replace="r/navbar::navbar"></th:block>
+
+		<div style="margin-top: 20px" class="well well-sm">
+			<p class="admin-message-text text-left" th:utext="${userInfo}"></p>
+		</div>
+
+		<div class="panel-group" style="margin-top: 20px">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-				
-				<div class="row">
-				  <div class="col-sm-4">All Jokes</div>
-				  <div class="col-sm-4"></div>
-				  <div class="col-sm-4"></div>
+
+					<div class="row">
+						<div class="col-sm-4">All Jokes</div>
+						<div class="col-sm-4"></div>
+						<div class="col-sm-4"></div>
+					</div>
+
 				</div>
-				
-				</div>
-				<th:block th:each="joke : ${jokes}">
-				<div class="panel-body">
-					<div class="panel-group" style="margin-top: 2px">
-						<div class="panel panel-primary">
-							<div class="panel-heading">
-								<div class="row">
-								  <div class="col-sm-4" >
-									<p th:text="${joke.title}"></p>
-								  </div>
-								  <div class="col-sm-4"></div>
-								  <div class="col-sm-4"></div>
+				<th:block th:each="jokeInHome : ${jokesInHome}">
+					<div class="panel-body">
+						<div class="panel-group" style="margin-top: 2px">
+							<div class="panel panel-primary">
+								<div class="panel-heading">
+									<div class="row">
+										<div class="col-sm-4"></div>
+										<div class="col-sm-4">
+											<p th:utext="'<b>'+${jokeInHome.title}+'</b>'"></p>
+										</div>
+										<div class="col-sm-4"></div>
+									</div>
 								</div>
-							</div>
-							<div class="panel-body">
-							
-							<div class="well well-sm" >
-								<span>Categories: </span>
-								<th:block th:each="category : ${joke.categories}">
-									<span th:text="${category.categoryName}" class="badge">
-									</span>			
-								</th:block>		
+								<div class="panel-body">
+
+									<div class="well">
+
+										<div class="col-sm-8">
+											<span><b>Categories:</b> </span>
+											<th:block th:each="category : ${jokeInHome.categories}">
+												<span th:text="${category}" class="badge">
+												</span>
+											</th:block>
+										</div>
+
+										<div class="col-sm-4">
+											<span><b>Published by:</b> </span> <span
+												th:text="${jokeInHome.author}"></span>
+										</div>
+									</div>
+
+
+									<div class="well">
+										<span th:text="${jokeInHome.body}"></span>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4">
+											<div class="well">
+												<p
+													th:utext="${jokeInHome.avgRating}?'Average Rating: <b>'+ ${jokeInHome.avgRating} + '</b>':'<b>Be the first one rating it!</b>'">avgRate</p>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="well">
+											<!-- th:checked="${not #sets.isEmpty(userTaj.roles)?  #sets.contains(userTaj.roles, myRole) :false}" -->
+											<p
+													th:utext="${jokeInHome.myRate}?'My Rating was: <b>'+ ${jokeInHome.myRate} + '</b>': 'I havent rate it yet!'">avgRate</p>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="well">
+												<form autocomplete="off" th:action="@{/r/rating}"
+													method="post" class="form-horizontal" role="form">
+													<input th:type="hidden" th:value="${jokeInHome.jokeId}" id="jokeId"
+														name="jokeId" /> <span><b>Update your rate: </b></span> <select
+														id="rating" name="rating">
+														<option value="1">1</option>
+														<option value="2">2</option>
+														<option value="3">3</option>
+														<option value="4">4</option>
+														<option value="5">5</option>
+													</select>
+													<button type="submit">Rate!</button>
+													<br>
+													<br>
+												</form>
+											</div>
+										</div>
+									</div>
+
+								</div>
+
 
 							</div>
-							
-							
-							
-							<p th:text="${joke.body}"></p>
-							</div>
-							<hr>
-							
-							<p th:utext="${joke.avgRating}?'Average Rating: <b>'+ ${joke.avgRating} + '</b>':'Be the first one rating it!'"></p>
-							<!-- <p>Your Rate!: <a>1</a> <a>2</a> <a>3</a> <a>4</a> <a>5</a> </p> -->
-							<form autocomplete="off"  th:action="@{/r/rating}"
-								 method="post" class="form-horizontal"
-								role="form">
-							<input th:type="hidden" th:value="${joke.id}" id="jokeId" name="jokeId"/> 
-							<span>Your rate: </span>
-							<select id="rating" name="rating">
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-							</select>
-							<button type="submit"  >
-									Rate!
-								</button>
-								<br><br>
-							</form>
 						</div>
 					</div>
-				</div>
-				</th:block>				
+				</th:block>
 			</div>
 		</div>
 

@@ -67,10 +67,10 @@ public class UserTaj {
     inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
     private Set<Role> roles;
     
-    @OneToMany(mappedBy = "userTaj", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "userTaj", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Set<Joke> jokes;
     
-    @OneToMany(mappedBy = "userTaj", cascade = CascadeType.MERGE)
-    private Set<UserTajRating> userTajRatings;
+    @OneToMany(mappedBy = "userTaj", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    private Set<Rating> ratings;
 
 }

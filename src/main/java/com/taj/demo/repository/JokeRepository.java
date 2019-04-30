@@ -17,7 +17,7 @@ public interface JokeRepository extends JpaRepository<Joke, Long>{
 	List<Joke> findAllByOrderByIdAsc();
 	
 	@Modifying
-	@Query(value = "update joke j set j.avg_rating=(select avg(rating) from usertaj_rating utr where utr.joke_id = ?) where j.joke_id = ?", 
+	@Query(value = "update joke j set j.avg_rating=(select avg(rating) from rating utr where utr.joke_id = ?) where j.joke_id = ?", 
 	  nativeQuery = true)
 	int updateJokeWithAverage(Integer jokeId, Integer jokeId2);
 	

@@ -19,15 +19,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.taj.demo.helper.JokeInHome;
 import com.taj.demo.model.Category;
 import com.taj.demo.model.Joke;
 import com.taj.demo.model.MyMessage;
+import com.taj.demo.model.Rating;
 import com.taj.demo.model.UserTaj;
-import com.taj.demo.model.UserTajRating;
 import com.taj.demo.service.CategoryService;
 import com.taj.demo.service.JokeService;
+import com.taj.demo.service.RatingService;
 import com.taj.demo.service.UserService;
-import com.taj.demo.service.UserTajRatingService;
 
 @Controller
 public class RegularController {
@@ -39,7 +40,7 @@ public class RegularController {
     private UserService userService;
 	
 	@Autowired
-    private UserTajRatingService userTajRatingService;
+    private RatingService ratingService;
 		
 	@Autowired
     private CategoryService categoryService;
@@ -51,13 +52,48 @@ public class RegularController {
     public ModelAndView regularHome(){
         ModelAndView modelAndView = new ModelAndView();
         List<Joke> jokes = jokeService.findAll();
-        modelAndView.addObject("jokes", jokes);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserTaj userTaj = userService.findUserByUsername(auth.getName());
+        List<JokeInHome> jokesInHome = this.getJokesInHome(jokes, userTaj);
+        modelAndView.addObject("jokesInHome", jokesInHome);
         modelAndView.addObject("userInfo", this.getUserInfo());
         modelAndView.setViewName("r/home");
         return modelAndView;
     }
     
-    @RequestMapping(value = "/r/myjokes", method = RequestMethod.GET)
+    private List<JokeInHome> getJokesInHome(List<Joke> jokes, UserTaj userTaj) {
+		List<JokeInHome> jokesInHome = new ArrayList<JokeInHome>();
+		for(Joke joke: jokes)
+		{
+			JokeInHome jokeInHome = new JokeInHome();
+			jokeInHome.setJokeId(joke.getId());
+			jokeInHome.setTitle(joke.getTitle());
+			jokeInHome.setBody(joke.getBody());
+			jokeInHome.setAuthor(joke.getUserTaj().getUsername());
+			if(joke.getAvgRating()!=null) {
+				jokeInHome.setAvgRating(joke.getAvgRating());	
+//				Set<Rating> ratings = joke.getRatings();
+				List<Rating> ratings = ratingService.findRatingsByJoke(joke);
+				for(Rating rating: ratings) {
+					if(rating.getUserTaj()==userTaj) {
+						jokeInHome.setMyRate(rating.getRating());
+					} 
+				}
+				
+			}else {
+				jokeInHome.setAvgRating(null);
+			}
+			List<String> categories = new ArrayList<>();
+			for(Category category: joke.getCategories()) {
+				categories.add(category.getCategoryName());
+			}
+			jokeInHome.setCategories(categories);
+			jokesInHome.add(jokeInHome);
+		}
+		return jokesInHome;
+	}
+
+	@RequestMapping(value = "/r/myjokes", method = RequestMethod.GET)
     public ModelAndView myJokes(){
         ModelAndView modelAndView = new ModelAndView();
         
@@ -154,11 +190,13 @@ public class RegularController {
     	Joke joke = jokeService.findById(jokeId);
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserTaj userTaj = userService.findUserByUsername(auth.getName());
-        UserTajRating userTajRating = new UserTajRating();
+        Rating userTajRating = new Rating();
+        userTajRating.setUserTajId(userTaj.getId());
         userTajRating.setUserTaj(userTaj);
+        userTajRating.setJokeId(joke.getId());
         userTajRating.setJoke(joke);
         userTajRating.setRating(rating);
-        UserTajRating userTajRatingSaved = userTajRatingService.save(userTajRating);
+        Rating userTajRatingSaved = ratingService.save(userTajRating);
         Integer avgRatingSaved = jokeService.updateJokeWithAverage(jokeId);
         modelAndView.setViewName("redirect:/r/home");
     	return modelAndView;
