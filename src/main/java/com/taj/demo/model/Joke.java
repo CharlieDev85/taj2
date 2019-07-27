@@ -45,7 +45,7 @@ public class Joke {
     @JoinTable(name = "JOKE_CATEGORY", 
     joinColumns = @JoinColumn(name = "JOKE_ID"), 
     inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID"))
-	@NotEmpty
+	@NotEmpty(message = "*Please choose at least one category")
     private Set<Category> categories;
 	
 	@OneToMany(mappedBy = "joke", cascade = CascadeType.MERGE, fetch=FetchType.LAZY)
