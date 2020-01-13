@@ -1,34 +1,23 @@
 package com.taj.demo.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.validation.Valid;
-
+import com.taj.demo.helper.JokeInHome;
+import com.taj.demo.model.*;
+import com.taj.demo.service.CategoryService;
+import com.taj.demo.service.JokeService;
+import com.taj.demo.service.RatingService;
+import com.taj.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.taj.demo.helper.JokeInHome;
-import com.taj.demo.model.Category;
-import com.taj.demo.model.Joke;
-import com.taj.demo.model.MyMessage;
-import com.taj.demo.model.Rating;
-import com.taj.demo.model.UserTaj;
-import com.taj.demo.service.CategoryService;
-import com.taj.demo.service.JokeService;
-import com.taj.demo.service.RatingService;
-import com.taj.demo.service.UserService;
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class RegularController {
@@ -58,6 +47,15 @@ public class RegularController {
         modelAndView.addObject("jokesInHome", jokesInHome);
         modelAndView.addObject("userInfo", this.getUserInfo());
         modelAndView.setViewName("r/home");
+        return modelAndView;
+    }
+
+    @GetMapping(value={"/r/simplehome"})
+    public ModelAndView simpleRegularHome(){
+        ModelAndView modelAndView = new ModelAndView();
+        List<Joke> jokes = jokeService.findAll();
+        modelAndView.addObject("jokes", jokes);
+        modelAndView.setViewName("r/simplehome");
         return modelAndView;
     }
     

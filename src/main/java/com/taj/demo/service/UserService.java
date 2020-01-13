@@ -14,6 +14,8 @@ import com.taj.demo.model.UserTaj;
 import com.taj.demo.repository.RoleRepository;
 import com.taj.demo.repository.UserRepository;
 
+import static java.util.Objects.requireNonNull;
+
 @Service("userService")
 public class UserService {
 	
@@ -30,6 +32,7 @@ public class UserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
+
     public UserTaj findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
@@ -43,6 +46,7 @@ public class UserService {
     }
 
     public UserTaj saveUser(UserTaj user) {
+        requireNonNull(user.getEmail());
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setActive(1);
         Role role = roleRepository.findByRole("regular");

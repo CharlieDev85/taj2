@@ -1,14 +1,12 @@
 package com.taj.demo.service;
 
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.taj.demo.model.Category;
 import com.taj.demo.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 
@@ -47,8 +45,9 @@ public class CategoryService {
     
     public List<Category> findAllSorted(){
 //    	return categoryRepository.findAllByOrderByIdAsc();
-    	Sort sort = new Sort(Sort.Direction.ASC, "categoryName");
-    	return categoryRepository.findAll(sort);
+    	//Sort sort = new Sort(Sort.Direction.ASC, "categoryName");
+    	//return categoryRepository.findAll(sort);
+        return categoryRepository.findAll();
     }
 
 }
